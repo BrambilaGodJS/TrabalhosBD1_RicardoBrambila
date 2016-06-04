@@ -1,0 +1,87 @@
+ <!-------------------------------------------- Entidades ---------------------------------------------->
+
+Rotulo(*codigo*, estilo_cod, cervejaria_cod, pais_origem_cod, temperatura_minima, temperatura_maxima, teor_alcoolico);
+    estilo_cod referencia Estilo(codigo); não nulo;
+    cervejaria_cod referencia Cervejaria(codigo); não nulo;
+    pais_origem_cod referencia Pais(codigo); não nulo;
+
+Estilo (*codigo*, nome, descricao);
+    nome chave candidata não nulo;
+
+Ingrediente(*codigo*, nome);
+    nome chave candidata não nulo;
+
+Cervejaria(*codigo*, nome);
+    nome chave candidata;
+
+Pais(*codigo*, nome);
+    nome chave candidata;
+
+Estabelecimento(*codigo*, nome);
+    nome chave candidata;
+
+Pessoa(*codigo*, nome, telefone);
+    
+Funcao(*codigo*, nome);
+    nome chave candidata;
+
+Tipo_Comida(*codigo*, nome);
+    nome chave candidata;
+
+Endereco(*codigo*, cidade_cod, cep, rua);
+    cep default 00000000;
+    rua nao nulo;
+    cidade_cod referencia Cidade(codigo);
+
+Cidade(*codigo*, nome, estado_cod);
+	estado_cod referencia Estado(codigo);
+
+Estado(*codigo*, nome);
+	nome chave candidata;
+
+HorarioFuncionamento(*abertura*, *fechamento*, dia_cod);
+    dia_cod referencia Dia(codigo);
+
+Dia(*codigo*, nome);
+    nome chave candidata;
+
+
+ <!-------------------------------------------- Relacionamentos ---------------------------------------------->
+
+Rotulo_Ingrediente(*rotulo_cod*, *ingrediente_cod*, percentual);
+    rotulo_codigo referencia Rotulo(codigo);
+    ingrediente_cod referencia Ingrediente(codigo);
+
+Rotulo_Pais_Producao(*rotulo_cod*, *pais_cod*);
+    rotulo_cod referencia Rotulo(codigo);
+    pais_cod referencia Pais(codigo);
+
+Rotulo_Estabelecimento(*rotulo_cod*, *estabelecimento_cod*);
+    rotulo_cod referencia Rotulo(codigo);
+    estabelecimento_cod referencia Estabelecimento(codigo);
+
+Propriedade(*estabelecimento_cod*, *pessoa_cod*);
+    estabelecimento_cod referencia Estabelecimento(codigo);
+    pessoa_cod referencia Pessoa(codigo);
+
+Pessoa_Funcao(*pessoa_cod*, *funcao_cod*);
+	pessoa_cod referencia Pessoa(codigo);
+	funcao_cod referencia Funcao(codigo);
+
+Trabalha(*estabelecimento_cod*, *pessoa_cod*, *funcao_cod*);
+	estabelecimento_cod referencia Estabelecimento(codigo);
+	pessoa_cod referencia Pessoa(codigo);
+	funcao_cod referencia Funcao(codigo);
+
+Estabelecimento_TipoComida(*estabelecimento_cod*, *tipo_comida_cod*);
+    estabelecimento_cod referencia Estabelecimento(codigo);
+    tipo_comida_cod referencia Tipo_Comida(codigo);
+
+Estabelecimento_HorarioFuncionamento(*estabelecimento_cod*, *horariofuncionamento_abertura*, *horariofuncionamento_fechamento*);
+    estabelecimento_cod referencia Estabelecimento(codigo);
+    horariofuncionamento_abertura referencia HorarioFuncionamento(horariofuncionamento_abertura);
+    horariofuncionamento_fechamento referencia HorarioFuncionamento(horariofuncionamento_fechamento);
+
+Estabelecimento_Endereco(*estabelecimento_cod*, *endereco_cod*);
+	estabelecimento_cod referencia Estabelecimento(codigo);
+	endereco_cod referencia Endereco(codigo);
