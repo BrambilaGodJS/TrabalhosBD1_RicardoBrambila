@@ -56,21 +56,39 @@ CREATE TABLE Tipo_Comida(
 	nome varchar(128) not null UNIQUE
 );
 
+CREATE TABLE Endereco(
+	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	cep int default 00000000,
+	rua varchar(64) not null,
+	cidade_cod int not null,
 
+	constraint cidade_cod_fk foreign key(cidade_cod) references Cidade(codigo)
+);
 
-Endereco(*codigo*, cidade_cod, cep, rua);
-    cep default 00000000;
-    rua nao nulo;
-    cidade_cod referencia Cidade(codigo);
+CREATE TABLE Cidade(
+	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	nome varchar(128),
+	estado_cod int not null,
 
-Cidade(*codigo*, nome, estado_cod);
-	estado_cod referencia Estado(codigo);
+	constraint estado_cod_fk foreign key(estado_cod) references Estado(codigo)
+);
 
-Estado(*codigo*, nome);
-	nome chave candidata;
+CREATE TABLE Estado(
+	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	nome varchar(64) not null UNIQUE
+);
 
-HorarioFuncionamento(*abertura*, *fechamento*, dia_cod);
-    dia_cod referencia Dia(codigo);
+CREATE TABLE HorarioFuncionamento(
+	abertura int GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	fechamento int GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	dia_cod int,
 
-Dia(*codigo*, nome);
-    nome chave candidata;
+	primary key (abertura, fechamento),
+	constraint dia_cod_fk foreign key(dia_cod) references Dia(codigo)
+);
+
+CREATE TABLE Dia(
+	codigo int GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	nome varchar(32) not null UNIQUE
+);
+
