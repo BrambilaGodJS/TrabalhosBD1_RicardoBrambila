@@ -171,3 +171,57 @@ CREATE TABLE Estabelecimento_Endereco(
 );
 
 
+
+-- --------------------------------------------- INSERTS ----------------------------------------------------
+
+INSERT INTO Pessoa(nome, telefone) values ('Capelão', '21945851208');
+INSERT INTO Pessoa(nome, telefone) values ('Zé', '31974421564');
+INSERT INTO Pessoa(nome, telefone) values ('José', '21971181380');
+INSERT INTO Pessoa(nome, telefone) values ('Wesley', '21920158750');
+
+INSERT INTO Estabelecimento(nome) values ('Bar do Capelão');
+INSERT INTO Estabelecimento(nome) values ('Bar dos Zé');
+
+INSERT INTO Funcao (nome) values ('Garçom');
+INSERT INTO Funcao (nome) values ('Gerente');
+
+INSERT INTO Propriedade(estabelecimento_cod, pessoa_cod) values ((
+	SELECT p.codigo from Pessoa p where p.nome = 'Capelão'
+),(
+	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar do Capelão'
+));
+
+INSERT INTO Propriedade(estabelecimento_cod, pessoa_cod) values ((
+	SELECT p.codigo from Pessoa p where p.nome = 'Zé'
+),(
+	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar dos Zé'
+));
+
+INSERT INTO Propriedade(estabelecimento_cod, pessoa_cod) values ((
+	SELECT p.codigo from Pessoa p where p.nome = 'José'
+),(
+	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar dos Zé'
+));
+
+INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values ((
+	SELECT p.codigo from Pessoa p where p.nome = 'José'
+),(
+	SELECT f.codigo from Funcao f where f.nome = 'Gerente'
+));
+
+INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values ((
+	SELECT p.codigo from Pessoa p where p.nome = 'Zé'
+),(
+	SELECT f.codigo from Funcao f where f.nome = 'Gerente'
+));
+
+INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values ((
+	SELECT p.codigo from Pessoa p where p.nome = 'Wesley'
+),(
+	SELECT f.codigo from Funcao f where f.nome = 'Garçom'
+));
+
+
+
+-- --------------------------------------------- UPDATES ----------------------------------------------------
+
