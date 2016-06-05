@@ -181,23 +181,24 @@ INSERT INTO Pessoa(nome, telefone) values ('Wesley', '21920158750');
 
 INSERT INTO Estabelecimento(nome) values ('Bar do Capelão');
 INSERT INTO Estabelecimento(nome) values ('Bar dos Zé');
+INSERT INTO Estabelecimento(nome) values ('Bar Sem Nome');
 
 INSERT INTO Funcao (nome) values ('Garçom');
 INSERT INTO Funcao (nome) values ('Gerente');
 
-INSERT INTO Propriedade(estabelecimento_cod, pessoa_cod) values ((
+INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values ((
 	SELECT p.codigo from Pessoa p where p.nome = 'Capelão'
 ),(
 	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar do Capelão'
 ));
 
-INSERT INTO Propriedade(estabelecimento_cod, pessoa_cod) values ((
+INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values ((
 	SELECT p.codigo from Pessoa p where p.nome = 'Zé'
 ),(
 	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar dos Zé'
 ));
 
-INSERT INTO Propriedade(estabelecimento_cod, pessoa_cod) values ((
+INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values ((
 	SELECT p.codigo from Pessoa p where p.nome = 'José'
 ),(
 	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar dos Zé'
@@ -221,7 +222,27 @@ INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values ((
 	SELECT f.codigo from Funcao f where f.nome = 'Garçom'
 ));
 
+INSERT INTO Estado (nome) values ('Rio de Janeiro');
+INSERT INTO Estado (nome) values ('São Paulo');
+
+INSERT INTO Cidade (nome, estado_cod) values('Rio de Janeiro', (SELECT e.codigo from Estado e where e.nome = 'Rio de Janeiro'));
+INSERT INTO Cidade (nome, estado_cod) values('Angra dos Reis', (SELECT e.codigo from Estado e where e.nome = 'Rio de Janeiro'));
+INSERT INTO Cidade (nome, estado_cod) values('Cabo Frio', (SELECT e.codigo from Estado e where e.nome = 'Rio de Janeiro'));
+
+INSERT INTO Endereco (cep, rua, cidade_cod) values (21051360, 'Rua Lago Verde', (SELECT c.codigo from Cidade c where c.nome = 'Rio de Janeiro'));
 
 
 -- --------------------------------------------- UPDATES ----------------------------------------------------
+
+
+UPDATE Estabelecimento e set e.nome = 'Bar do Capelão V2' where e.nome = 'Bar do Capelão';
+
+UPDATE Propriedade p set p.estabelecimento_cod = (SELECT e.codigo from Estabelecimento e where e.nome = 'Bar Sem Nome') where p.pessoa_cod = (SELECT pes.codigo from Pessoa pes where pes.nome = 'José');
+UPDATE Propriedade p set p.estabelecimento_cod = (SELECT e.codigo from Estabelecimento e where e.nome = 'Bar Sem Nome') where p.pessoa_cod = (SELECT pes.codigo from Pessoa pes where pes.nome = 'Zé');
+
+UPDATE Endereco e set e.cep = '22052360' where e.cidade_cod = (SELECT est.codigo from Estado est where est.nome = 'Rio de Janeiro');
+
+
+
+-- --------------------------------------------- DELETES ----------------------------------------------------
 
