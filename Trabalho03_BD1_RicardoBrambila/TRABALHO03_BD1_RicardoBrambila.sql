@@ -246,3 +246,18 @@ UPDATE Endereco e set e.cep = '22052360' where e.cidade_cod = (SELECT est.codigo
 
 -- --------------------------------------------- DELETES ----------------------------------------------------
 
+DELETE FROM Propriedade where pessoa_cod = (select p.codigo from Pessoa p where p.nome = 'Capelão');
+DELETE FROM Propriedade where pessoa_cod IN (
+	select p.codigo from Pessoa p where p.nome = 'Capelão',
+	select p.codigo from Pessoa p where p.nome = 'Wesley'
+);
+
+DELETE FROM Endereco;
+
+-- --------------------------------------------- ALTER ----------------------------------------------------
+
+ALTER TABLE Estabelecimento_Endereco DROP constraint endereco_cod_fk;
+ALTER TABLE Estabelecimento_Endereco ADD constraint endereco_cod_fk foreign key(endereco_cod) references Endereco(codigo) on DELETE cascade;
+
+ALTER TABLE Estabelecimento_TipoComida DROP constraint tipo_comida_cod_fk;
+ALTER TABLE Estabelecimento_TipoComida ADD constraint tipo_comida_cod_fk foreign key(tipo_comida_cod) references Tipo_Comida(codigo) on DELETE set null;
