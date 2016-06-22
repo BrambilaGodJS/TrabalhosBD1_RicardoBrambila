@@ -1,5 +1,7 @@
 CREATE TABLE Rotulo(
 	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	nome varchar(50) not null,
+	validade varchar(10),
 
 	temperatura_minima int,
 	temperatura_maxima int,
@@ -43,7 +45,10 @@ CREATE TABLE Estabelecimento(
 CREATE TABLE Pessoa(
 	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
 	nome varchar(128) not null UNIQUE,
-	telefone varchar(20)
+	telefone varchar(20),
+	identidade varchar(30),
+	nascimento varchar(10),
+	cpf varchar(30)
 );
 
 CREATE TABLE Funcao(
