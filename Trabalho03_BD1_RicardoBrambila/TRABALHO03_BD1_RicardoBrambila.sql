@@ -1,5 +1,5 @@
 CREATE TABLE Rotulo(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(50) not null,
 	validade varchar(50),
 
@@ -17,33 +17,33 @@ CREATE TABLE Rotulo(
 );
 
 CREATE TABLE Estilo(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128) not null UNIQUE,
 	descricao varchar(1024)
 );
 
 CREATE TABLE Ingrediente(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128) not null UNIQUE
 );
 
 CREATE TABLE Cervejaria(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128) not null UNIQUE
 );
 
 CREATE TABLE Pais(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128) not null UNIQUE
 );
 
 CREATE TABLE Estabelecimento(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128) not null UNIQUE
 );
 
 CREATE TABLE Pessoa(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128) not null UNIQUE,
 	telefone varchar(20),
 	identidade varchar(30),
@@ -52,17 +52,17 @@ CREATE TABLE Pessoa(
 );
 
 CREATE TABLE Funcao(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128) not null UNIQUE
 );
 
 CREATE TABLE Tipo_Comida(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128) not null UNIQUE
 );
 
 CREATE TABLE Endereco(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	cep int default 00000000,
 	rua varchar(64) not null,
 	cidade_cod int not null,
@@ -71,7 +71,7 @@ CREATE TABLE Endereco(
 );
 
 CREATE TABLE Cidade(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(128),
 	estado_cod int not null,
 
@@ -79,7 +79,7 @@ CREATE TABLE Cidade(
 );
 
 CREATE TABLE Estado(
-	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(64) not null UNIQUE
 );
 
@@ -93,7 +93,7 @@ CREATE TABLE HorarioFuncionamento(
 );
 
 CREATE TABLE Dia(
-	codigo int GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	codigo int primary key AUTO_INCREMENT,
 	nome varchar(32) not null UNIQUE
 );
 
@@ -102,18 +102,18 @@ CREATE TABLE Rotulo_Ingrediente(
 	rotulo_codigo int,
 	ingrediente_cod int,
 
-	constraint rotulo_codigo_fk foreign key(rotulo_codigo) references Rotulo(codigo),
-	constraint ingrediente_cod_fk foreign key(ingrediente_cod) references Ingrediente(codigo),
-	constraint rotulo_ingrediente_pk primary key (rotulo_codigo, ingrediente_cod)
+	constraint ri_rotulo_codigo_fk foreign key(rotulo_codigo) references Rotulo(codigo),
+	constraint ri_ingrediente_cod_fk foreign key(ingrediente_cod) references Ingrediente(codigo),
+	constraint ri_rotulo_ingrediente_pk primary key (rotulo_codigo, ingrediente_cod)
 );
 
 CREATE TABLE Rotulo_Pais_Producao(
 	rotulo_codigo int,
 	pais_cod int,
 
-	constraint rotulo_codigo_fk foreign key(rotulo_codigo) references Rotulo(codigo),
-	constraint pais_cod_fk foreign key(pais_cod) references Pais(codigo),
-	constraint rotulo_pais_producao_pk primary key (rotulo_codigo, pais_cod)
+	constraint rpp_rotulo_codigo_fk foreign key(rotulo_codigo) references Rotulo(codigo),
+	constraint rpp_pais_cod_fk foreign key(pais_cod) references Pais(codigo),
+	constraint rpp_rotulo_pais_producao_pk primary key (rotulo_codigo, pais_cod)
 );
 
 
@@ -121,27 +121,27 @@ CREATE TABLE Rotulo_Estabelecimento(
 	rotulo_codigo int,
 	estabelecimento_cod int,
 
-	constraint rotulo_codigo_fk foreign key (rotulo_codigo) references Rotulo(codigo),
-	constraint estabelecimento_cod_fk foreign key (estabelecimento_cod) references Estabelecimento(codigo),
-	constraint rotulo_estabelecimento_pk primary key (rotulo_codigo, estabelecimento_cod)
+	constraint re_rotulo_codigo_fk foreign key (rotulo_codigo) references Rotulo(codigo),
+	constraint re_estabelecimento_cod_fk foreign key (estabelecimento_cod) references Estabelecimento(codigo),
+	constraint re_rotulo_estabelecimento_pk primary key (rotulo_codigo, estabelecimento_cod)
 );
 
 CREATE TABLE Propriedade(
 	estabelecimento_cod int,
 	pessoa_cod int,
 
-	constraint estabelecimento_cod_fk foreign key (estabelecimento_cod) references Estabelecimento(codigo),
-	constraint pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
-	constraint propriedade_pk primary key (estabelecimento_cod, pessoa_cod)
+	constraint p_estabelecimento_cod_fk foreign key (estabelecimento_cod) references Estabelecimento(codigo),
+	constraint p_pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
+	constraint p_propriedade_pk primary key (estabelecimento_cod, pessoa_cod)
 );
 
 CREATE TABLE Pessoa_Funcao(
 	pessoa_cod int,
 	funcao_cod int,
 
-	constraint pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
-	constraint funcao_cod_fk foreign key(funcao_cod) references Funcao(codigo),
-	constraint pessoa_funcao_pk primary key (pessoa_cod, funcao_cod)
+	constraint pf_pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
+	constraint pf_funcao_cod_fk foreign key(funcao_cod) references Funcao(codigo),
+	constraint pf_pessoa_funcao_pk primary key (pessoa_cod, funcao_cod)
 );
 
 CREATE TABLE Trabalha(
@@ -149,19 +149,19 @@ CREATE TABLE Trabalha(
 	pessoa_cod int,
 	funcao_cod int,
 
-	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
-	constraint pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
-	constraint funcao_cod_fk foreign key(funcao_cod) references Funcao(codigo),
-	constraint trabalha_pk primary key (estabelecimento_cod, pessoa_cod, funcao_cod)
+	constraint t_estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
+	constraint t_pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
+	constraint t_funcao_cod_fk foreign key(funcao_cod) references Funcao(codigo),
+	constraint t_trabalha_pk primary key (estabelecimento_cod, pessoa_cod, funcao_cod)
 );
 
 CREATE TABLE Estabelecimento_TipoComida(
 	estabelecimento_cod int,
 	tipo_comida_cod int,
 
-	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
-	constraint tipo_comida_cod_fk foreign key(tipo_comida_cod) references Tipo_Comida(codigo),
-	constraint estabelecimento_tipo_comida_pk primary key (estabelecimento_cod, tipo_comida_cod)
+	constraint et_estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
+	constraint et_tipo_comida_cod_fk foreign key(tipo_comida_cod) references Tipo_Comida(codigo),
+	constraint et_estabelecimento_tipo_comida_pk primary key (estabelecimento_cod, tipo_comida_cod)
 );
 
 CREATE TABLE Estabelecimento_HorarioFuncionamento(
@@ -169,18 +169,18 @@ CREATE TABLE Estabelecimento_HorarioFuncionamento(
 	horariofuncionamento_abertura varchar(30),
 	horariofuncionamento_fechamento varchar(30),
 
-	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
-	constraint horariofuncionamento_fk foreign key(horariofuncionamento_abertura, horariofuncionamento_fechamento) references HorarioFuncionamento(abertura, fechamento)
-	constraint estabelecimento_horario_funcionamento_pk primary key (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento)
+	constraint eh_estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
+	constraint eh_horariofuncionamento_fk foreign key(horariofuncionamento_abertura, horariofuncionamento_fechamento) references HorarioFuncionamento(abertura, fechamento),
+	constraint eh_estabelecimento_horario_funcionamento_pk primary key (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento)
 );
 
 CREATE TABLE Estabelecimento_Endereco(
 	estabelecimento_cod int,
 	endereco_cod int,
 
-	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
-	constraint endereco_cod_fk foreign key(endereco_cod) references Endereco(codigo),
-	constraint estabelecimento_endereco_pk primary key (estabelecimento_cod, endereco_cod)
+	constraint ee_estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
+	constraint ee_endereco_cod_fk foreign key(endereco_cod) references Endereco(codigo),
+	constraint ee_estabelecimento_endereco_pk primary key (estabelecimento_cod, endereco_cod)
 );
 
 
@@ -229,7 +229,7 @@ INSERT INTO Pessoa(nome, telefone, identidade, nascimento, cpf) values ('Capelã
 INSERT INTO Pessoa(nome, telefone, identidade, nascimento, cpf) values ('Zé', '31974421564', '521596158', '1990-11-20', '20153201574');
 INSERT INTO Pessoa(nome, telefone, identidade, nascimento, cpf) values ('José', '21971181380', '263096845', '1991-02-02', '20165486520');
 INSERT INTO Pessoa(nome, telefone, identidade, nascimento, cpf) values ('Wesley', '21920158750', '586231568', '1920-01-01', '15462520315');
-INSERT INTO Pessoa (nome, telefone, identidade, nascimento, cpf) VALUES('Stephenie Friedman','21945822258' '403289440', '1990-03-02', '104825243');
+INSERT INTO Pessoa (nome, telefone, identidade, nascimento, cpf) VALUES('Stephenie Friedman','21945822258', '403289440', '1990-03-02', '104825243');
 INSERT INTO Pessoa (nome, telefone, identidade, nascimento, cpf) VALUES('Mayra Hepp', '21952202157' ,'911225341', '1952-12-18', '126227998');
 INSERT INTO Pessoa (nome, telefone, identidade, nascimento, cpf) VALUES('Elephteria Spicer', '21584420650' ,'2977269', '1965-06-18', '366605427');
 
@@ -244,50 +244,22 @@ INSERT INTO Funcao (nome) values ('Gerente');
 INSERT INTO Funcao (nome) values ('Cozinheiro');
 INSERT INTO Funcao (nome) values ('Administração');
 
-INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values ((
-	SELECT p.codigo from Pessoa p where p.nome = 'Capelão'
-),(
-	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar do Capelão'
-));
+INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values (1, 2);
+INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values (1, 1);
+INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values (2, 1);
 
-INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values ((
-	SELECT p.codigo from Pessoa p where p.nome = 'Zé'
-),(
-	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar dos Zé'
-));
-
-INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values ((
-	SELECT p.codigo from Pessoa p where p.nome = 'José'
-),(
-	SELECT e.codigo from Estabelecimento e where e.nome = 'Bar dos Zé'
-));
-
-INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values ((
-	SELECT p.codigo from Pessoa p where p.nome = 'José'
-),(
-	SELECT f.codigo from Funcao f where f.nome = 'Gerente'
-));
-
-INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values ((
-	SELECT p.codigo from Pessoa p where p.nome = 'Zé'
-),(
-	SELECT f.codigo from Funcao f where f.nome = 'Gerente'
-));
-
-INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values ((
-	SELECT p.codigo from Pessoa p where p.nome = 'Wesley'
-),(
-	SELECT f.codigo from Funcao f where f.nome = 'Garçom'
-));
+INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values (1, 3);
+INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values (2, 1);
+INSERT INTO Pessoa_Funcao(pessoa_cod, funcao_cod) values (1, 2);
 
 INSERT INTO Estado (nome) values ('Rio de Janeiro');
 INSERT INTO Estado (nome) values ('São Paulo');
 
-INSERT INTO Cidade (nome, estado_cod) values('Rio de Janeiro', (SELECT e.codigo from Estado e where e.nome = 'Rio de Janeiro'));
-INSERT INTO Cidade (nome, estado_cod) values('Angra dos Reis', (SELECT e.codigo from Estado e where e.nome = 'Rio de Janeiro'));
-INSERT INTO Cidade (nome, estado_cod) values('Cabo Frio', (SELECT e.codigo from Estado e where e.nome = 'Rio de Janeiro'));
+INSERT INTO Cidade (nome, estado_cod) values('Rio de Janeiro', 1);
+INSERT INTO Cidade (nome, estado_cod) values('Angra dos Reis', 2);
+INSERT INTO Cidade (nome, estado_cod) values('Cabo Frio', 2);
 
-INSERT INTO Endereco (cep, rua, cidade_cod) values (21051360, 'Rua Lago Verde', (SELECT c.codigo from Cidade c where c.nome = 'Rio de Janeiro'));
+INSERT INTO Endereco (cep, rua, cidade_cod) values (21051360, 'Rua Lago Verde', 1);
 
 INSERT INTO HorarioFuncionamento (dia_cod, ABERTURA,FECHAMENTO) VALUES('1', '18', '00');
 INSERT INTO HorarioFuncionamento (dia_cod, ABERTURA,FECHAMENTO) VALUES('2', '16', '03');
@@ -298,16 +270,13 @@ INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('1', '3')
 INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('2', '3');
 INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('3', '2');
 INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('2', '1');
-INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('1', '3');
 INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('4', '3');
 INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('2', '4');
 INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('1', '4');
-INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('2', '1');
 
 INSERT INTO Rotulo_Pais_Producao (pais_cod, rotulo_codigo) VALUES('1', '2');
 INSERT INTO Rotulo_Pais_Producao (pais_cod, rotulo_codigo) VALUES('3', '3');
 INSERT INTO Rotulo_Pais_Producao (pais_cod, rotulo_codigo) VALUES('4', '1');
-INSERT INTO Rotulo_Pais_Producao (pais_cod, rotulo_codigo) VALUES('1', '2');
 
 INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('3', '3');
 INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('3', '2');
@@ -320,9 +289,9 @@ INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('
 
 
 INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('1', '18', '00');
-INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('2', '19', '03');
-INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('3', '20', '05');
-INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('4', '21', '07');
+INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('2', '16', '03');
+INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('3', '22', '03');
+INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('4', '22', '03');
 
 INSERT INTO Estabelecimento_TipoComida (tipo_comida_cod, estabelecimento_cod) VALUES('1', '3');
 INSERT INTO Estabelecimento_TipoComida (tipo_comida_cod, estabelecimento_cod) VALUES('2', '3');
@@ -341,7 +310,6 @@ UPDATE Propriedade p set p.estabelecimento_cod = (SELECT e.codigo from Estabelec
 UPDATE Propriedade p set p.estabelecimento_cod = (SELECT e.codigo from Estabelecimento e where e.nome = 'Bar Sem Nome') where p.pessoa_cod = (SELECT pes.codigo from Pessoa pes where pes.nome = 'Zé');
 
 UPDATE Endereco e set e.cep = '22052360' where e.cidade_cod = (SELECT est.codigo from Estado est where est.nome = 'Rio de Janeiro');
-
 
 
 -- --------------------------------------------- DELETES ----------------------------------------------------
