@@ -1,7 +1,7 @@
 CREATE TABLE Rotulo(
 	codigo int primary key GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
 	nome varchar(50) not null,
-	validade varchar(10),
+	validade varchar(50),
 
 	temperatura_minima int,
 	temperatura_maxima int,
@@ -84,8 +84,8 @@ CREATE TABLE Estado(
 );
 
 CREATE TABLE HorarioFuncionamento(
-	abertura time not null,
-	fechamento time not null,
+	abertura varchar(50) not null,
+	fechamento varchar(50) not null,
 	dia_cod int,
 
 	primary key (abertura, fechamento),
@@ -166,8 +166,8 @@ CREATE TABLE Estabelecimento_TipoComida(
 
 CREATE TABLE Estabelecimento_HorarioFuncionamento(
 	estabelecimento_cod int,
-	horariofuncionamento_abertura time,
-	horariofuncionamento_fechamento time,
+	horariofuncionamento_abertura varchar(30),
+	horariofuncionamento_fechamento varchar(30),
 
 	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
 	constraint horariofuncionamento_fk foreign key(horariofuncionamento_abertura, horariofuncionamento_fechamento) references HorarioFuncionamento(abertura, fechamento)
@@ -187,17 +187,62 @@ CREATE TABLE Estabelecimento_Endereco(
 
 -- --------------------------------------------- INSERTS ----------------------------------------------------
 
-INSERT INTO Pessoa(nome, telefone) values ('Capelão', '21945851208');
-INSERT INTO Pessoa(nome, telefone) values ('Zé', '31974421564');
-INSERT INTO Pessoa(nome, telefone) values ('José', '21971181380');
-INSERT INTO Pessoa(nome, telefone) values ('Wesley', '21920158750');
+INSERT INTO Ingrediente (NOME) VALUES('Água');
+INSERT INTO Ingrediente (NOME) VALUES('Malte');
+INSERT INTO Ingrediente (NOME) VALUES('Lúpulo');
+INSERT INTO Ingrediente (NOME) VALUES('Fermento');
+
+INSERT INTO Estilo (NOME, DESCRICAO) VALUES('Larger Pilsen', 'Estilo de cervejas douradas, brilhantes, que apresentam leve amargor.');
+INSERT INTO Estilo (NOME, DESCRICAO) VALUES('ALE STOUT', 'Estilo de cerveja típico do reino unido e irlanda, a marca mais conhecido é a irlandesa Guinness.');
+INSERT INTO Estilo (NOME, DESCRICAO) VALUES('LAGER BOCK', 'Estilo de cervejas em sua maioria avermelhadas, mas temos as versões claras (Heller Bock) e também escuras (Dunkler Bock).');
+INSERT INTO Estilo (NOME, DESCRICAO) VALUES('ALE DUBBEL', 'Estilo típico belga, de coloração marrom, desperta aromas frutados, médio e corpo e equilibrado sabor.');
+
+INSERT INTO Pais (NOME) VALUES('BRASIL');
+INSERT INTO Pais (NOME) VALUES('INGLATERRA');
+INSERT INTO Pais (NOME) VALUES('BELGICA');
+INSERT INTO Pais (NOME) VALUES('ALEMANHA');
+
+INSERT INTO Cervejaria (NOME) VALUES('Cervejaria Colorado');
+INSERT INTO Cervejaria (NOME) VALUES('Wells & Youngs');
+INSERT INTO Cervejaria (NOME) VALUES('Einbecker Brauhaus');
+INSERT INTO Cervejaria (NOME) VALUES('Brouwerij Van Steenberge');
+
+INSERT INTO Rotulo (NOME, VALIDADE, temperatura_maxima, temperatura_minima, teor_alcoolico, estilo_cod, pais_origem_cod, cervejaria_cod) VALUES('Colorado', '12 meses', -10, 25, 9, 1, 3, 1);
+INSERT INTO Rotulo (NOME, VALIDADE, temperatura_maxima, temperatura_minima, teor_alcoolico, estilo_cod, pais_origem_cod, cervejaria_cod) VALUES('Youngs Double', '12 meses', -10, 25, 9, 1, 1, 2);
+INSERT INTO Rotulo (NOME, VALIDADE, temperatura_maxima, temperatura_minima, teor_alcoolico, estilo_cod, pais_origem_cod, cervejaria_cod) VALUES('Einbecker', '6 meses', -15, 10, 6, 2, 1, 3);
+INSERT INTO Rotulo (NOME, VALIDADE, temperatura_maxima, temperatura_minima, teor_alcoolico, estilo_cod, pais_origem_cod, cervejaria_cod) VALUES('Abdij van Roosenberg', '6 meses', -15, 10, 6, 3, 2, 3);
+
+INSERT INTO Dia (NOME) VALUES('SEGUNDA');
+INSERT INTO Dia (NOME) VALUES('TERCA');
+INSERT INTO Dia (NOME) VALUES('QUARTA');
+INSERT INTO Dia (NOME) VALUES('QUINTA');
+INSERT INTO Dia (NOME) VALUES('SEXTA');
+INSERT INTO Dia (NOME) VALUES('SABADO');
+INSERT INTO Dia (NOME) VALUES('DOMINGO');
+
+INSERT INTO Tipo_Comida (NOME) VALUES('COMIDA BRASILEIRA');
+INSERT INTO Tipo_Comida (NOME) VALUES('COMIDA MEXICANA');
+INSERT INTO Tipo_Comida (NOME) VALUES('PETISCOS');
+INSERT INTO Tipo_Comida (NOME) VALUES('JAPONESA');
+
+INSERT INTO Pessoa(nome, telefone, identidade, nascimento, cpf) values ('Capelão', '21945851208', '251631850', '1995-12-18', '15625225745');
+INSERT INTO Pessoa(nome, telefone, identidade, nascimento, cpf) values ('Zé', '31974421564', '521596158', '1990-11-20', '20153201574');
+INSERT INTO Pessoa(nome, telefone, identidade, nascimento, cpf) values ('José', '21971181380', '263096845', '1991-02-02', '20165486520');
+INSERT INTO Pessoa(nome, telefone, identidade, nascimento, cpf) values ('Wesley', '21920158750', '586231568', '1920-01-01', '15462520315');
+INSERT INTO Pessoa (nome, telefone, identidade, nascimento, cpf) VALUES('Stephenie Friedman','21945822258' '403289440', '1990-03-02', '104825243');
+INSERT INTO Pessoa (nome, telefone, identidade, nascimento, cpf) VALUES('Mayra Hepp', '21952202157' ,'911225341', '1952-12-18', '126227998');
+INSERT INTO Pessoa (nome, telefone, identidade, nascimento, cpf) VALUES('Elephteria Spicer', '21584420650' ,'2977269', '1965-06-18', '366605427');
+
 
 INSERT INTO Estabelecimento(nome) values ('Bar do Capelão');
 INSERT INTO Estabelecimento(nome) values ('Bar dos Zé');
 INSERT INTO Estabelecimento(nome) values ('Bar Sem Nome');
+INSERT INTO Estabelecimento(nome) values ('Bar e Restaurante Urca');
 
 INSERT INTO Funcao (nome) values ('Garçom');
 INSERT INTO Funcao (nome) values ('Gerente');
+INSERT INTO Funcao (nome) values ('Cozinheiro');
+INSERT INTO Funcao (nome) values ('Administração');
 
 INSERT INTO Propriedade(pessoa_cod, estabelecimento_cod) values ((
 	SELECT p.codigo from Pessoa p where p.nome = 'Capelão'
@@ -243,6 +288,48 @@ INSERT INTO Cidade (nome, estado_cod) values('Angra dos Reis', (SELECT e.codigo 
 INSERT INTO Cidade (nome, estado_cod) values('Cabo Frio', (SELECT e.codigo from Estado e where e.nome = 'Rio de Janeiro'));
 
 INSERT INTO Endereco (cep, rua, cidade_cod) values (21051360, 'Rua Lago Verde', (SELECT c.codigo from Cidade c where c.nome = 'Rio de Janeiro'));
+
+INSERT INTO HorarioFuncionamento (dia_cod, ABERTURA,FECHAMENTO) VALUES('1', '18', '00');
+INSERT INTO HorarioFuncionamento (dia_cod, ABERTURA,FECHAMENTO) VALUES('2', '16', '03');
+INSERT INTO HorarioFuncionamento (dia_cod, ABERTURA,FECHAMENTO) VALUES('2', '22', '03');
+INSERT INTO HorarioFuncionamento (dia_cod, ABERTURA,FECHAMENTO) VALUES('1', '21', '00');
+
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('1', '3');
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('2', '3');
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('3', '2');
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('2', '1');
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('1', '3');
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('4', '3');
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('2', '4');
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('1', '4');
+INSERT INTO Rotulo_Ingrediente (rotulo_codigo, ingrediente_cod) VALUES('2', '1');
+
+INSERT INTO Rotulo_Pais_Producao (pais_cod, rotulo_codigo) VALUES('1', '2');
+INSERT INTO Rotulo_Pais_Producao (pais_cod, rotulo_codigo) VALUES('3', '3');
+INSERT INTO Rotulo_Pais_Producao (pais_cod, rotulo_codigo) VALUES('4', '1');
+INSERT INTO Rotulo_Pais_Producao (pais_cod, rotulo_codigo) VALUES('1', '2');
+
+INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('3', '3');
+INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('3', '2');
+INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('1', '4');
+INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('1', '3');
+INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('2', '2');
+INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('2', '1');
+INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('4', '1');
+INSERT INTO Rotulo_Estabelecimento (rotulo_codigo, estabelecimento_cod) VALUES('4', '3');
+
+
+INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('1', '18', '00');
+INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('2', '19', '03');
+INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('3', '20', '05');
+INSERT INTO Estabelecimento_HorarioFuncionamento (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento) VALUES('4', '21', '07');
+
+INSERT INTO Estabelecimento_TipoComida (tipo_comida_cod, estabelecimento_cod) VALUES('1', '3');
+INSERT INTO Estabelecimento_TipoComida (tipo_comida_cod, estabelecimento_cod) VALUES('2', '3');
+INSERT INTO Estabelecimento_TipoComida (tipo_comida_cod, estabelecimento_cod) VALUES('3', '2');
+INSERT INTO Estabelecimento_TipoComida (tipo_comida_cod, estabelecimento_cod) VALUES('4', '2');
+INSERT INTO Estabelecimento_TipoComida (tipo_comida_cod, estabelecimento_cod) VALUES('3', '1');
+INSERT INTO Estabelecimento_TipoComida (tipo_comida_cod, estabelecimento_cod) VALUES('2', '1');
 
 
 -- --------------------------------------------- UPDATES ----------------------------------------------------
