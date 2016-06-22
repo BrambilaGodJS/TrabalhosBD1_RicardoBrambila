@@ -98,7 +98,8 @@ CREATE TABLE Rotulo_Ingrediente(
 	ingrediente_cod int,
 
 	constraint rotulo_codigo_fk foreign key(rotulo_codigo) references Rotulo(codigo),
-	constraint ingrediente_cod_fk foreign key(ingrediente_cod) references Ingrediente(codigo)
+	constraint ingrediente_cod_fk foreign key(ingrediente_cod) references Ingrediente(codigo),
+	constraint rotulo_ingrediente_pk primary key (rotulo_codigo, ingrediente_cod)
 );
 
 CREATE TABLE Rotulo_Pais_Producao(
@@ -106,7 +107,8 @@ CREATE TABLE Rotulo_Pais_Producao(
 	pais_cod int,
 
 	constraint rotulo_codigo_fk foreign key(rotulo_codigo) references Rotulo(codigo),
-	constraint pais_cod_fk foreign key(pais_cod) references Pais(codigo)
+	constraint pais_cod_fk foreign key(pais_cod) references Pais(codigo),
+	constraint rotulo_pais_producao_pk primary key (rotulo_codigo, pais_cod)
 );
 
 
@@ -115,7 +117,8 @@ CREATE TABLE Rotulo_Estabelecimento(
 	estabelecimento_cod int,
 
 	constraint rotulo_codigo_fk foreign key (rotulo_codigo) references Rotulo(codigo),
-	constraint estabelecimento_cod foreign key (estabelecimento_cod) references Estabelecimento(codigo)
+	constraint estabelecimento_cod_fk foreign key (estabelecimento_cod) references Estabelecimento(codigo),
+	constraint rotulo_estabelecimento_pk primary key (rotulo_codigo, estabelecimento_cod)
 );
 
 CREATE TABLE Propriedade(
@@ -123,7 +126,8 @@ CREATE TABLE Propriedade(
 	pessoa_cod int,
 
 	constraint estabelecimento_cod_fk foreign key (estabelecimento_cod) references Estabelecimento(codigo),
-	constraint pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo)
+	constraint pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
+	constraint propriedade_pk primary key (estabelecimento_cod, pessoa_cod)
 );
 
 CREATE TABLE Pessoa_Funcao(
@@ -131,7 +135,8 @@ CREATE TABLE Pessoa_Funcao(
 	funcao_cod int,
 
 	constraint pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
-	constraint funcao_cod_fk foreign key(funcao_cod) references Funcao(codigo)
+	constraint funcao_cod_fk foreign key(funcao_cod) references Funcao(codigo),
+	constraint pessoa_funcao_pk primary key (pessoa_cod, funcao_cod)
 );
 
 CREATE TABLE Trabalha(
@@ -141,7 +146,8 @@ CREATE TABLE Trabalha(
 
 	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
 	constraint pessoa_cod_fk foreign key(pessoa_cod) references Pessoa(codigo),
-	constraint funcao_cod_fk foreign key(funcao_cod) references Funcao(codigo)
+	constraint funcao_cod_fk foreign key(funcao_cod) references Funcao(codigo),
+	constraint trabalha_pk primary key (estabelecimento_cod, pessoa_cod, funcao_cod)
 );
 
 CREATE TABLE Estabelecimento_TipoComida(
@@ -149,7 +155,8 @@ CREATE TABLE Estabelecimento_TipoComida(
 	tipo_comida_cod int,
 
 	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
-	constraint tipo_comida_cod_fk foreign key(tipo_comida_cod) references Tipo_Comida(codigo)
+	constraint tipo_comida_cod_fk foreign key(tipo_comida_cod) references Tipo_Comida(codigo),
+	constraint estabelecimento_tipo_comida_pk primary key (estabelecimento_cod, tipo_comida_cod)
 );
 
 CREATE TABLE Estabelecimento_HorarioFuncionamento(
@@ -158,8 +165,8 @@ CREATE TABLE Estabelecimento_HorarioFuncionamento(
 	horariofuncionamento_fechamento time,
 
 	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
-	constraint horariofuncionamento_abertura_fk foreign key(horariofuncionamento_abertura) references HorarioFuncionamento(abertura),
-	constraint horariofuncionamento_fechamento foreign key(horariofuncionamento_fechamento) references HorarioFuncionamento(fechamento)
+	constraint horariofuncionamento_fk foreign key(horariofuncionamento_abertura, horariofuncionamento_fechamento) references HorarioFuncionamento(abertura, fechamento)
+	constraint estabelecimento_horario_funcionamento_pk primary key (estabelecimento_cod, horariofuncionamento_abertura, horariofuncionamento_fechamento)
 );
 
 CREATE TABLE Estabelecimento_Endereco(
@@ -167,7 +174,8 @@ CREATE TABLE Estabelecimento_Endereco(
 	endereco_cod int,
 
 	constraint estabelecimento_cod_fk foreign key(estabelecimento_cod) references Estabelecimento(codigo),
-	constraint endereco_cod_fk foreign key(endereco_cod) references Endereco(codigo)
+	constraint endereco_cod_fk foreign key(endereco_cod) references Endereco(codigo),
+	constraint estabelecimento_endereco_pk primary key (estabelecimento_cod, endereco_cod)
 );
 
 
